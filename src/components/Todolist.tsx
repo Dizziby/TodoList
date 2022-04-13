@@ -1,5 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {FilterValuesType} from "./App";
+import {FilterValuesType} from "../App";
+import {debuglog} from "util";
+import Button from "./Button";
 
 type TodoListPropsType = {
     title: string
@@ -36,7 +38,7 @@ function TodoList(props: TodoListPropsType) {
             <li key={task.id}>
                 <input type="checkbox" checked={task.isDone}/>
                 <span>{task.title}</span>
-                <button onClick={() => props.removeTask(task.id)}>x</button>
+                <Button name={"✖"} callback={() => props.removeTask(task.id) } />
             </li>
         )
     })
@@ -46,15 +48,15 @@ function TodoList(props: TodoListPropsType) {
             <h3>{props.title}</h3>
             <div>
                 <input value={title} onChange={onChangeSetTitle} onKeyPress={onKeyPressOnClickAddTask}/>
-                <button onClick={onClickAddTask}>+</button>
+                <Button name={"+"} callback={onClickAddTask} />
             </div>
             <ul>
                 {taskListItems}
             </ul>
             <div>
-                <button onClick={onClickChangeFilter("all")}>All</button>
-                <button onClick={onClickChangeFilter("active")}>Active</button>
-                <button onClick={onClickChangeFilter("completed")}>Completed</button>
+                <Button name={"All"} callback={onClickChangeFilter("all")} />
+                <Button name={"Active"} callback={onClickChangeFilter("active")} />
+                <Button name={"Completed"} callback={onClickChangeFilter("completed")} />
             </div>
         </div>
 

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import TodoList, {TaskType} from "./Todolist";
+import TodoList, {TaskType} from "./components/Todolist";
 import {v1} from "uuid";
 
 export type FilterValuesType = "all" | "active" | "completed"
@@ -12,7 +12,9 @@ function App() {
     const [tasks, setTasks] = useState<Array<TaskType>>([
         {id: v1(), title: "HTML", isDone: true},
         {id: v1(), title: "CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: false}
+        {id: v1(), title: "JS", isDone: false},
+        {id: v1(), title: "Rest API", isDone: false},
+        {id: v1(), title: "GraphQL", isDone: false},
     ])
 
     const addTask = (title: string) => {
