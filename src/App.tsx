@@ -22,35 +22,31 @@ function App() {
             id: v1(),
             title,
             isDone: false
-        }, ...tasks])
+        },
+            ...tasks])
+    }
+    const removeTask = (taskID: string) => {
+        setTasks(tasks.filter(task => task.id !== taskID))
+    }
+    const changeTaskStatus = (taskId: string, isDone: boolean) => {
+        setTasks(tasks.map(task => task.id === taskId ? {...task, isDone: isDone} : task))
     }
 
     const [filter, setFilter] = useState<FilterValuesType>("all")
-
     const changeFilter = (filter: FilterValuesType) => {
         setFilter(filter)
     }
 
-    let taskForRender;
-    switch (filter) {
-        case "completed":
-            taskForRender = tasks.filter(task => task.isDone);
-            break;
-        case "active":
-            taskForRender = tasks.filter(task => !task.isDone);
-            break;
-        default:
-            taskForRender = tasks;
-    }
-
-    const removeTask = (taskID: string) => {
-        setTasks(tasks.filter(task => task.id !== taskID))
-    }
-
     return (
         <div className="App">
-            <TodoList title={todoListTitle} tasks={taskForRender} removeTask={removeTask} changeFilter={changeFilter}
-                      addTask={addTask}/>
+            <TodoList title={todoListTitle}
+                      tasks={tasks}
+                      filter={filter}
+                      removeTask={removeTask}
+                      changeFilter={changeFilter}
+                      addTask={addTask}
+                      changeTaskStatus={changeTaskStatus}
+            />
         </div>
     );
 }

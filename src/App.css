@@ -6,3 +6,17 @@
 .App > div {
   margin-right: 50px;
 }
+
+.active-filter {
+  background-color: #d97f7f;
+}
+
+.is-done {
+  opacity: 0.5;
+  font-weight: 700;
+}
+
+.error {
+  border: 3px solid red;
+  outline: none;
+}
