@@ -1,5 +1,4 @@
 import React from 'react';
-import {FilterValuesType} from "../App";
 
 type ButtonPropsType = {
     name: string
