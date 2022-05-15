@@ -1,6 +1,9 @@
 .App {
   padding: 30px;
   display: flex;
+  flex-direction: column;
+  background: url("img/bg.jpg");
+  background-size: 100%;
 }
 
 .App > div {
@@ -14,9 +17,19 @@
 .is-done {
   opacity: 0.5;
   font-weight: 700;
+  color: #7F77E0;
 }
 
 .error {
   border: 3px solid red;
   outline: none;
 }
+
+/*.appWrapper {*/
+/*  display: flex;*/
+/*}*/
+
+/*.appWrapper  > div {*/
+/*  margin-right: 20px;*/
+/*  padding: 10px;*/
+/*}*/
