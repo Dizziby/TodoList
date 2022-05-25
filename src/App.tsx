@@ -13,8 +13,7 @@ export type TodolistsType = {
     title: string
     filter: FilterValuesType
 }
-
-type TasksType = {
+export type TasksType = {
     [key: string]: Array<TaskType>
 }
 
@@ -48,6 +47,7 @@ function App() {
     const removeTodolist = (todolisdID: string) => {
         setTodolists(todolists.filter(el => el.id !== todolisdID))
         delete tasks[todolisdID]
+        setTasks({...tasks})
     }
 
     const addTask = (todolisdID: string, title: string) => {
