@@ -1,8 +1,28 @@
 import {TasksType} from "../App";
 import {v1} from "uuid";
 
+let todolistID1 = v1();
+let todolistID2 = v1();
 
-export const tasksReducer = (state: TasksType, action: ActionType) => {
+const initialState: TasksType = {
+    // [todolistID1]: [
+    //     {id: v1(), title: "HTML&CSS", isDone: true},
+    //     {id: v1(), title: "JS", isDone: true},
+    //     {id: v1(), title: "ReactJS", isDone: false},
+    //     {id: v1(), title: "Rest API", isDone: false},
+    //     {id: v1(), title: "GraphQL", isDone: false},
+    // ],
+    // [todolistID2]: [
+    //     {id: v1(), title: "HTML&CSS2", isDone: true},
+    //     {id: v1(), title: "JS2", isDone: true},
+    //     {id: v1(), title: "ReactJS2", isDone: false},
+    //     {id: v1(), title: "Rest API2", isDone: false},
+    //     {id: v1(), title: "GraphQL2", isDone: false},
+    // ]
+}
+
+export const tasksReducer = (state: TasksType = initialState, action: ActionType): TasksType => {
+    debugger
     switch (action.type) {
         case 'REMOVE-TASK': {
             return {
@@ -15,7 +35,7 @@ export const tasksReducer = (state: TasksType, action: ActionType) => {
                 ...state,
                 [action.payload.todolistId]: [{
                     id: v1(),
-                    title: "juce",
+                    title: action.payload.title,
                     isDone: false
                 }, ...state[action.payload.todolistId]]
             }
