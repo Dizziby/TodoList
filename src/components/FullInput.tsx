@@ -5,8 +5,8 @@ type FullInputPropsType = {
     callback: (title: string) => void
 }
 
-export const FullInput: React.FC<FullInputPropsType> = (props) => {
-
+export const FullInput: React.FC<FullInputPropsType> = React.memo((props) => {
+    console.log("FullInput rendering")
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<boolean>(false)
 
@@ -26,7 +26,7 @@ export const FullInput: React.FC<FullInputPropsType> = (props) => {
         }
     }
 
-    const inputClasses = error ? "error" : "";
+   //const inputClasses = error ? "error" : "";
 
     return (
         <div>
@@ -59,5 +59,5 @@ export const FullInput: React.FC<FullInputPropsType> = (props) => {
 
             {/*{error && <div style={{color: "red", fontWeight: 700}}>Title is required</div>}*/}
         </div>
-    );
-};
+    )
+})

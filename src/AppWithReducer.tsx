@@ -79,16 +79,12 @@ function AppWithReducer() {
         dispatchToTasks(action)
     }
 
-    const editNameTodolist = (todolisdID: string, newTitle: string) => {
+    const changeTodolistTitle = (todolisdID: string, newTitle: string) => {
         dispatchToTodolists(changeTodolistTitleAC(todolisdID, newTitle))
     }
 
-    const editNameTask = (todolisdID: string, taskID: string, newTitle: string) => {
+    const changeTaskTitle = (todolisdID: string, taskID: string, newTitle: string) => {
         dispatchToTasks(changeTaskTitleAC(taskID,newTitle, todolisdID))
-        // setTasks({
-        //     ...tasks,
-        //     [todolisdID]: tasks[todolisdID].map(el => el.id === taskID ? {...el, title: newTitle} : el)
-        // })
     }
 
     return (
@@ -114,8 +110,8 @@ function AppWithReducer() {
                                         addTask={addTask}
                                         changeTaskStatus={changeTaskStatus}
                                         removeTodolist={removeTodolist}
-                                        editNameTodolist={editNameTodolist}
-                                        editNameTask={editNameTask}
+                                        changeTodolistTitle={changeTodolistTitle}
+                                        changeTaskTitle={changeTaskTitle}
                                     />
                                 </Paper>
                             </Grid>
