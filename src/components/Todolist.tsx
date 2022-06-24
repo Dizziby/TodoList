@@ -1,10 +1,11 @@
 import React, {useCallback} from 'react';
-import {FilterValuesType} from "../AppWithRedux";
 import {FullInput} from "./FullInput";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "./Task";
+import {TaskStatuses, TaskType} from "../api/todolistAPI";
+import {FilterValuesType} from "../state/todolists-reducer";
 
 export type TodoListPropsType = {
     todolisdID: string
@@ -14,16 +15,10 @@ export type TodoListPropsType = {
     removeTask: (todolisdID: string, taskID: string) => void
     changeFilter: (todolisdID: string, filter: FilterValuesType) => void
     addTask: (todolisdID: string, title: string) => void
-    changeTaskStatus: (todolisdID: string, taskId: string, isDone: boolean) => void
+    changeTaskStatus: (todolisdID: string, taskId: string, status: TaskStatuses) => void
     removeTodolist: (todolisdID: string) => void
     changeTodolistTitle: (todolisdID: string, newTitle: string) => void
     changeTaskTitle: (todolisdID: string, taskID: string, newTitle: string) => void
-}
-
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
 }
 
 const TodoList = React.memo((props: TodoListPropsType) => {
@@ -49,21 +44,21 @@ const TodoList = React.memo((props: TodoListPropsType) => {
         props.changeFilter(props.todolisdID, filter)
     }, [props.changeFilter, props.todolisdID])
 
-    const removeTask = useCallback((taskID: string)=> {
+    const removeTask = useCallback((taskID: string) => {
         props.removeTask(props.todolisdID, taskID)
     }, [props.removeTask, props.todolisdID])
 
-    const changeTaskStatus = useCallback((taskId: string, isDone: boolean) => {
-        props.changeTaskStatus(props.todolisdID, taskId, isDone)
+    const changeTaskStatus = useCallback((taskId: string, status: TaskStatuses) => {
+        props.changeTaskStatus(props.todolisdID, taskId, status)
     }, [props.changeTaskStatus, props.todolisdID])
 
     let taskForRender;
     switch (props.filter) {
         case "completed":
-            taskForRender = props.tasks.filter(task => task.isDone);
+            taskForRender = props.tasks.filter(task => task.status === TaskStatuses.Completed);
             break;
         case "active":
-            taskForRender = props.tasks.filter(task => !task.isDone);
+            taskForRender = props.tasks.filter(task => task.status === TaskStatuses.New);
             break;
         default:
             taskForRender = props.tasks

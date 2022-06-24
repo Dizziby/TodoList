@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import './App.css';
-import TodoList, {TaskType} from "./components/Todolist";
+import TodoList from "./components/Todolist";
 import {FullInput} from "./components/FullInput";
 import ButtonAppBar from "./components/ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
@@ -8,27 +8,18 @@ import {
     addTodolistAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
-    removeTodolistAC
+    FilterValuesType,
+    removeTodolistAC, TodolistDomainType
 } from "./state/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TasksType} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store.js";
-import TodolistWithTasks from "./components/TodolistWithTasks";
+import {TaskStatuses} from "./api/todolistAPI";
 
-export type FilterValuesType = "all" | "active" | "completed"
-
-export type TodolistsType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
-export type TasksType = {
-    [key: string]: Array<TaskType>
-}
 
 function AppWithRedux() {
 
-    let todolists = useSelector<AppRootStateType, Array<TodolistsType>>(state => state.todolists)
+    let todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
 
     let tasks = useSelector<AppRootStateType, TasksType>(state => state.tasks)
 
@@ -46,8 +37,8 @@ function AppWithRedux() {
         dispatch(removeTaskAC(taskID, todolisdID))
     }, [])
 
-    const changeTaskStatus = useCallback((todolisdID: string, taskId: string, isDone: boolean) => {
-        dispatch(changeTaskStatusAC(taskId, isDone, todolisdID))
+    const changeTaskStatus = useCallback((todolisdID: string, taskId: string, status: TaskStatuses) => {
+        dispatch(changeTaskStatusAC(taskId, status, todolisdID))
     }, [])
 
     const changeFilter = useCallback((todolisdID: string, filter: FilterValuesType) => {
