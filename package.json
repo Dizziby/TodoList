@@ -1,5 +1,6 @@
 {
-  "name": "it-incubator-todolist-ts",
+  "name": "todolist",
+  "homepage": "https://Dizziby.github.io/todoList",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -22,6 +23,7 @@
     "react-redux": "^8.0.2",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
+    "redux-thunk": "^2.4.1",
     "typescript": "~4.6.4",
     "uuid": "^8.3.2"
   },
@@ -30,6 +32,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "storybook": "start-storybook -p 9009",
     "build-storybook": "build-storybook -s public",
     "jest:integration": "jest -c integration/jest.config.js",
@@ -72,6 +76,7 @@
     "@storybook/react": "^6.5.9",
     "@storybook/testing-library": "^0.0.13",
     "babel-plugin-named-exports-order": "^0.0.2",
+    "gh-pages": "^4.0.0",
     "jest-image-snapshot": "^5.1.0",
     "jest-puppeteer": "^6.1.0",
     "prop-types": "^15.8.1",

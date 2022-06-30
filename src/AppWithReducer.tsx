@@ -158,7 +158,19 @@ function AppWithReducer() {
     }
 
     const addTask = (todolisdID: string, title: string) => {
-        dispatchToTasks(addTaskAC(title, todolisdID))
+        const task = {
+            id: v1(),
+            title,
+            status: TaskStatuses.New,
+            description: "",
+            todoListId: todolisdID,
+            startDate: "",
+            deadline: "",
+            addedDate: "",
+            order: 0,
+            priority: TaskPriorities.Low
+        }
+        dispatchToTasks(addTaskAC(task))
     }
 
     const removeTask = (todolisdID: string, taskID: string) => {

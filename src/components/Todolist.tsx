@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {FullInput} from "./FullInput";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
@@ -6,6 +6,9 @@ import {Delete} from "@mui/icons-material";
 import {Task} from "./Task";
 import {TaskStatuses, TaskType} from "../api/todolistAPI";
 import {FilterValuesType} from "../state/todolists-reducer";
+import {useDispatch} from "react-redux";
+import {fetchTasksTC} from "../state/tasks-reducer";
+import {AppDispatchType} from "../state/store";
 
 export type TodoListPropsType = {
     todolisdID: string
@@ -23,6 +26,8 @@ export type TodoListPropsType = {
 
 const TodoList = React.memo((props: TodoListPropsType) => {
     console.log("Todolist called")
+
+    const dispatch: AppDispatchType = useDispatch()
 
     const removeTodolist = useCallback(() => {
         props.removeTodolist(props.todolisdID)
@@ -63,6 +68,11 @@ const TodoList = React.memo((props: TodoListPropsType) => {
         default:
             taskForRender = props.tasks
     }
+
+    useEffect(() => {
+        dispatch(fetchTasksTC(props.todolisdID))
+    }, [])
+
 
     // const allBtnClasses = props.filter === "all" ? "active-filter" : "";
     // const activeBtnClasses = props.filter === "active" ? "active-filter" : "";

@@ -11,9 +11,15 @@ import {
     TodolistDomainType
 } from "../state/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../state/store.js";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasks-reducer";
-import {TaskStatuses, TaskType} from "../api/todolistAPI";
+import {AppDispatchType, RootState} from "../state/store.js";
+import {
+    addTaskAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC
+} from "../state/tasks-reducer";
+import {TaskPriorities, TaskStatuses, TaskType} from "../api/todolistAPI";
+import {v1} from "uuid";
 
 
 type TodolistWithTasksPropsType = {
@@ -22,9 +28,9 @@ type TodolistWithTasksPropsType = {
 
 function TodolistWithTasks({todolist}: TodolistWithTasksPropsType) {
 
-    let tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todolist.id])
+    let tasks = useSelector<RootState, Array<TaskType>>(state => state.tasks[todolist.id])
 
-    const dispatch = useDispatch()
+    const dispatch: AppDispatchType = useDispatch()
 
     const onClickChangeFilter = (filter: FilterValuesType) => dispatch(changeTodolistFilterAC(todolist.id, filter))
 
@@ -33,7 +39,20 @@ function TodolistWithTasks({todolist}: TodolistWithTasksPropsType) {
     }
 
     const addTaskHandler = (title: string) => {
-        dispatch(addTaskAC(title, todolist.id))
+        const task = {
+            id: v1(),
+            title: title,
+            status: TaskStatuses.New,
+            description: "",
+            todoListId: "todolistId2",
+            startDate: "",
+            deadline: "",
+            addedDate: "",
+            order: 0,
+            priority: TaskPriorities.Low
+        }
+
+        dispatch(addTaskAC(task))
     }
 
     const editTitleTodolistHandler = (newTitle: string) => {
@@ -65,16 +84,19 @@ function TodolistWithTasks({todolist}: TodolistWithTasksPropsType) {
         ? taskForRender.map((task) => {
 
             const onChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
-                dispatch(changeTaskStatusAC(task.id, e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New,  todolist.id))
+                dispatch(changeTaskStatusAC(task.id, e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New, todolist.id))
             }
 
             return (
-                <li key={task.id} style={{minWidth: "200px", display: "flex", justifyContent: "space-Between"}}>
+                <li key={task.id}
+                    style={{minWidth: "200px", display: "flex", justifyContent: "space-Between"}}>
                     {/*<input onChange={onChangeStatus} type="checkbox" checked={task.isDone}/>*/}
-                    <Checkbox style={{color: "#7F77E0"}} onChange={onChangeStatus} checked={task.status === TaskStatuses.Completed} />
+                    <Checkbox style={{color: "#7F77E0"}} onChange={onChangeStatus}
+                              checked={task.status === TaskStatuses.Completed}/>
 
                     {/*<span className={taskClasses}>{task.title}</span>*/}
-                    <EditableSpan title={task.title} callback={(newTitle) => editTaskHandler(task.id, newTitle)}/>
+                    <EditableSpan title={task.title}
+                                  callback={(newTitle) => editTaskHandler(task.id, newTitle)}/>
 
                     {/*<button onClick={() => props.removeTask(props.todolisdID, task.id)}>✖</button>*/}
                     <IconButton aria-label="delete" style={{color: "#3A354D"}}>
@@ -91,7 +113,12 @@ function TodolistWithTasks({todolist}: TodolistWithTasksPropsType) {
 
     return (
         <div>
-            <h3 style={{minWidth: "250px", display: "flex", justifyContent: "space-between", color: "#3A354D"}}>
+            <h3 style={{
+                minWidth: "250px",
+                display: "flex",
+                justifyContent: "space-between",
+                color: "#3A354D"
+            }}>
                 <EditableSpan title={todolist.title} callback={editTitleTodolistHandler}/>
 
                 {/*<button onClick={removeTodolistHandler}>X</button>*/}
@@ -108,7 +135,8 @@ function TodolistWithTasks({todolist}: TodolistWithTasksPropsType) {
                         onClick={() => onClickChangeFilter("all")}>All</Button>
                 <Button variant={todolist.filter === "active" ? "outlined" : "text"} color="error"
                         onClick={() => onClickChangeFilter("active")}>Active</Button>
-                <Button variant={todolist.filter === "completed" ? "outlined" : "text"} color="secondary"
+                <Button variant={todolist.filter === "completed" ? "outlined" : "text"}
+                        color="secondary"
                         onClick={() => onClickChangeFilter("completed")}>Completed</Button>
                 {/*<button className={allBtnClasses} onClick={() => onClickChangeFilter("all")}>"All"</button>*/}
                 {/*<button className={activeBtnClasses} onClick={() => onClickChangeFilter("active")}>"Active"</button>*/}
