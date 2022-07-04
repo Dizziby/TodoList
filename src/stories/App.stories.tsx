@@ -1,19 +1,19 @@
 import {ComponentMeta, ComponentStory} from "@storybook/react";
 import {action} from "@storybook/addon-actions";
 import React from "react";
-import AppWithRedux from "../AppWithRedux";
+import App from "../components/App/App";
 import {ReduxStoreProviderDecorator} from "./decorators/ReduxStoreProviderDecorator";
 
 export default  {
-    title: "AppWithRedux",
-    component: AppWithRedux,
+    title: "App",
+    component: App,
     decorators: [ReduxStoreProviderDecorator]
-} as ComponentMeta<typeof AppWithRedux>
+} as ComponentMeta<typeof App>
 
-const Template: ComponentStory<typeof AppWithRedux> = () => <AppWithRedux/>
+const Template: ComponentStory<typeof App> = () => <App/>
 
-export const AppWithReduxStories = Template.bind({})
+export const AppStories = Template.bind({})
 
-AppWithReduxStories.args = {
+AppStories.args = {
     callback: action("button clicked inside form")
 }

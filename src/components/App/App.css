@@ -2,7 +2,7 @@
   padding: 30px;
   display: flex;
   flex-direction: column;
-  background: url("img/bg.jpg");
+  background: url("../../assets/img/bg.jpg");
   background-size: 100%;
 }
 
@@ -24,12 +24,3 @@
   border: 3px solid red;
   outline: none;
 }
-
-/*.appWrapper {*/
-/*  display: flex;*/
-/*}*/
-
-/*.appWrapper  > div {*/
-/*  margin-right: 20px;*/
-/*  padding: 10px;*/
-/*}*/

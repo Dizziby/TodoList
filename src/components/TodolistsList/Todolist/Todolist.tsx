@@ -1,14 +1,14 @@
 import React, {useCallback, useEffect} from 'react';
-import {FullInput} from "./FullInput";
-import {EditableSpan} from "./EditableSpan";
+import {FullInput} from "../../common/FullInput";
+import {EditableSpan} from "../../common/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {Task} from "./Task";
-import {TaskStatuses, TaskType} from "../api/todolistAPI";
-import {FilterValuesType} from "../state/todolists-reducer";
+import {Task} from "./Task/Task";
+import {TaskStatuses, TaskType} from "../../../api/todolistAPI";
+import {FilterValuesType} from "../../../redux/todolists-reducer";
 import {useDispatch} from "react-redux";
-import {fetchTasksTC} from "../state/tasks-reducer";
-import {AppDispatchType} from "../state/store";
+import {fetchTasksTC} from "../../../redux/tasks-reducer";
+import {AppDispatchType} from "../../../redux/store";
 
 export type TodoListPropsType = {
     todolisdID: string
@@ -25,7 +25,6 @@ export type TodoListPropsType = {
 }
 
 const TodoList = React.memo((props: TodoListPropsType) => {
-    console.log("Todolist called")
 
     const dispatch: AppDispatchType = useDispatch()
 
@@ -73,23 +72,20 @@ const TodoList = React.memo((props: TodoListPropsType) => {
         dispatch(fetchTasksTC(props.todolisdID))
     }, [])
 
-
-    // const allBtnClasses = props.filter === "all" ? "active-filter" : "";
-    // const activeBtnClasses = props.filter === "active" ? "active-filter" : "";
-    // const completedBtnClasses = props.filter === "completed" ? "active-filter" : "";
-
     return (
         <div>
-            <h3 style={{minWidth: "250px", display: "flex", justifyContent: "space-between", color: "#3A354D"}}>
+            <h3 style={{
+                minWidth: "250px",
+                display: "flex",
+                justifyContent: "space-between",
+                color: "#3A354D"
+            }}>
                 <EditableSpan title={props.title} callback={changeTodolistTitle}/>
-
-                {/*<button onClick={removeTodolistHandler}>X</button>*/}
-                <IconButton aria-label="delete" style={{color: "#3A354D"}}>
-                    <Delete onClick={removeTodolist}/>
+                <IconButton aria-label="delete" style={{color: "#3A354D"}} onClick={removeTodolist}>
+                    <Delete/>
                 </IconButton>
             </h3>
             <FullInput callback={addTask}/>
-
             {taskForRender.length
                 ? taskForRender.map((task) => <Task
                         key={task.id}
@@ -101,18 +97,14 @@ const TodoList = React.memo((props: TodoListPropsType) => {
                 )
                 : <div style={{padding: "10px"}}>No tasks</div>
             }
-
             <div>
                 <Button variant={props.filter === "all" ? "outlined" : "text"} color="success"
                         onClick={() => onClickChangeFilter("all")}>All</Button>
                 <Button variant={props.filter === "active" ? "outlined" : "text"} color="error"
                         onClick={() => onClickChangeFilter("active")}>Active</Button>
-                <Button variant={props.filter === "completed" ? "outlined" : "text"} color="secondary"
+                <Button variant={props.filter === "completed" ? "outlined" : "text"}
+                        color="secondary"
                         onClick={() => onClickChangeFilter("completed")}>Completed</Button>
-
-                {/*<button className={allBtnClasses} onClick={() => onClickChangeFilter("all")}>"All"</button>*/}
-                {/*<button className={activeBtnClasses} onClick={() => onClickChangeFilter("active")}>"Active"</button>*/}
-                {/*<button className={completedBtnClasses} onClick={() => onClickChangeFilter("completed")}>"Completed"</button>*/}
             </div>
 
         </div>

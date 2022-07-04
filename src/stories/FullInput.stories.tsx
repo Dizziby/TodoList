@@ -1,4 +1,4 @@
-import {FullInput} from "../components/FullInput";
+import {FullInput} from "../components/common/FullInput";
 import {ComponentMeta, ComponentStory} from "@storybook/react";
 import {action} from "@storybook/addon-actions";
 import React from "react";

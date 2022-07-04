@@ -37,6 +37,8 @@ export const todolistsAPI = {
     },
 }
 
+// =============================Types=============================
+
 export type TodolistType = {
     id: string
     addedDate: string
@@ -71,7 +73,6 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4
 }
-
 
 type GetTaskResponseType = {
     items: Array<TaskType>

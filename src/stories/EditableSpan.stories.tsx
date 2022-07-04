@@ -1,9 +1,9 @@
 import {ComponentMeta, ComponentStory} from "@storybook/react";
 import {action} from "@storybook/addon-actions";
 import React from "react";
-import {Task} from "../components/Task";
+import {Task} from "../components/TodolistsList/Todolist/Task/Task";
 import {v1} from "uuid";
-import {EditableSpan} from "../components/EditableSpan";
+import {EditableSpan} from "../components/common/EditableSpan";
 
 export default  {
     title: "EditableSpan",

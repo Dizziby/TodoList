@@ -6,7 +6,7 @@ type FullInputPropsType = {
 }
 
 export const FullInput: React.FC<FullInputPropsType> = React.memo((props) => {
-    console.log("FullInput rendering")
+
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<boolean>(false)
 
