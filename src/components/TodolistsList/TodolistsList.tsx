@@ -13,7 +13,7 @@ import {
 import {addTasksTC, removeTaskTC, TasksType, updateTaskTC} from "../../redux/tasks-reducer";
 import {TaskStatuses} from "../../api/todolistAPI";
 import {Grid, Paper} from "@mui/material";
-import {FullInput} from "../common/FullInput";
+import {FullInput} from "../common/FullInput/FullInput";
 import TodoList from "./Todolist/Todolist";
 
 export const TodolistsList: React.FC = () => {
@@ -76,6 +76,7 @@ export const TodolistsList: React.FC = () => {
                                     title={el.title}
                                     tasks={tasks[el.id]}
                                     filter={el.filter}
+                                    entityStatus={el.entityStatus}
                                     removeTask={removeTask}
                                     changeFilter={changeFilter}
                                     addTask={addTask}

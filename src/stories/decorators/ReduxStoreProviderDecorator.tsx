@@ -7,16 +7,18 @@ import {todolistsReducer} from "../../redux/todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "../../api/todolistAPI";
 import {RootState} from "../../redux/store";
 import thunk from "redux-thunk";
+import {appReducer} from "../../redux/app-reducer";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
-    todolists: todolistsReducer
+    todolists: todolistsReducer,
+    app: appReducer
 })
 
 const initialGlobalState = {
     todolists: [
-        {id: "todolistId1", title: 'What to learn', filter: 'all', addedDate: "", order: 0},
-        {id: "todolistId2", title: 'What to buy', filter: 'all', addedDate: "", order: 0},
+        {id: "todolistId1", title: 'What to learn', filter: 'all', addedDate: "", order: 0, entityStatus: "idle"},
+        {id: "todolistId2", title: 'What to buy', filter: 'all', addedDate: "", order: 0, entityStatus: "idle"},
     ],
     tasks: {
         ['todolistId1']: [
@@ -29,7 +31,8 @@ const initialGlobalState = {
                 deadline: "",
                 addedDate: "",
                 order: 0,
-                priority: TaskPriorities.Low
+                priority: TaskPriorities.Low,
+                entityStatus: "idle"
 
             },
             {
@@ -41,8 +44,8 @@ const initialGlobalState = {
                 deadline: "",
                 addedDate: "",
                 order: 0,
-                priority: TaskPriorities.Low
-
+                priority: TaskPriorities.Low,
+                entityStatus: "idle"
             }
         ],
         ['todolistId2']: [
@@ -55,8 +58,8 @@ const initialGlobalState = {
                 deadline: "",
                 addedDate: "",
                 order: 0,
-                priority: TaskPriorities.Low
-
+                priority: TaskPriorities.Low,
+                entityStatus: "idle"
             },
             {
                 id: v1(), title: 'React Book',
@@ -67,10 +70,15 @@ const initialGlobalState = {
                 deadline: "",
                 addedDate: "",
                 order: 0,
-                priority: TaskPriorities.Low
-
+                priority: TaskPriorities.Low,
+                entityStatus: "idle"
             }
         ]
+
+    },
+    app: {
+        status: 'loading',
+        error: null
     }
 }
 

@@ -1,12 +1,13 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {Button, TextField} from "@mui/material";
+import {RequestStatusType} from "../../../redux/app-reducer";
 
 type FullInputPropsType = {
     callback: (title: string) => void
+    disabled?: RequestStatusType
 }
 
 export const FullInput: React.FC<FullInputPropsType> = React.memo((props) => {
-
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<boolean>(false)
 
@@ -25,39 +26,25 @@ export const FullInput: React.FC<FullInputPropsType> = React.memo((props) => {
             setError(true)
         }
     }
-
-   //const inputClasses = error ? "error" : "";
-
     return (
         <div>
-            {/*<input*/}
-            {/*    value={title}*/}
-            {/*    onChange={onChangeSetTitle}*/}
-            {/*    onKeyPress={onKeyPressOnClickAddTask}*/}
-            {/*    className={inputClasses}*/}
-            {/*/>*/}
-
-            <TextField id="outlined-basic" label={error ? "Title is required" : "Title"} variant="outlined"
+            <TextField id="outlined-basic" label={error ? "Title is required" : "Title"}
+                       variant="outlined"
                        size="small" value={title} error={error}
+                       disabled={props.disabled === "loading"}
                        onChange={onChangeSetTitle} onKeyPress={onKeyPressOnClickAddTask}/>
-
-
-            {/*<button onClick={onClickAddTask}>+</button>*/}
-
             <Button variant="contained" size="small"
                     style={{
                         maxWidth: '39px',
                         maxHeight: '39px',
                         minWidth: '39px',
                         minHeight: '39px',
-                        backgroundColor:"#7F77E0",
+                        backgroundColor: "#7F77E0",
                         color: "black",
                         marginLeft: "10px"
                     }}
+                    disabled={props.disabled === "loading"}
                     onClick={onClickAddTask}>+</Button>
-
-
-            {/*{error && <div style={{color: "red", fontWeight: 700}}>Title is required</div>}*/}
         </div>
     )
 })

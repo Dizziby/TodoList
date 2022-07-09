@@ -6,6 +6,7 @@ import {
     todolistsReducer
 } from '../todolists-reducer';
 import {v1} from 'uuid';
+import {TaskPriorities, TaskStatuses} from "../../api/todolistAPI";
 
 
 let todolistId1: string
@@ -19,8 +20,22 @@ beforeEach(() => {
     todolistId2 = v1();
 
     startState = [
-        {id: todolistId1, title: "What to learn", filter: "all",addedDate: "", order: 0},
-        {id: todolistId2, title: "What to buy", filter: "all", addedDate: "", order: 0}
+        {
+            id: todolistId1,
+            title: "What to learn",
+            filter: "all",
+            addedDate: "",
+            order: 0,
+            entityStatus: "idle"
+        },
+        {
+            id: todolistId2,
+            title: "What to buy",
+            filter: "all",
+            addedDate: "",
+            order: 0,
+            entityStatus: "idle"
+        }
     ]
 })
 
@@ -34,7 +49,19 @@ test('correct todolist should be removed', () => {
 
 test('correct todolist should be added', () => {
 
-    let newTodolistTitle = "New Todolist";
+    let newTodolistTitle = {
+        id: v1(),
+        title: 'New task',
+        status: TaskStatuses.Completed,
+        description: "",
+        todoListId: 'todolistId1',
+        startDate: "",
+        deadline: "",
+        addedDate: "",
+        order: 0,
+        priority: TaskPriorities.Low,
+        entityStatus: "idle"
+    }
 
     const endState = todolistsReducer(startState, addTodolistAC(newTodolistTitle))
 

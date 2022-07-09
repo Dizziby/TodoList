@@ -1,31 +1,18 @@
 import React, {useCallback, useEffect} from 'react';
-import {FullInput} from "../../common/FullInput";
-import {EditableSpan} from "../../common/EditableSpan";
+import {FullInput} from "../../common/FullInput/FullInput";
+import {EditableSpan} from "../../common/EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "./Task/Task";
-import {TaskStatuses, TaskType} from "../../../api/todolistAPI";
+import {TaskStatuses} from "../../../api/todolistAPI";
 import {FilterValuesType} from "../../../redux/todolists-reducer";
 import {useDispatch} from "react-redux";
-import {fetchTasksTC} from "../../../redux/tasks-reducer";
+import {fetchTasksTC, TaskDomainType} from "../../../redux/tasks-reducer";
 import {AppDispatchType} from "../../../redux/store";
-
-export type TodoListPropsType = {
-    todolisdID: string
-    title: string
-    tasks: Array<TaskType>
-    filter: FilterValuesType
-    removeTask: (todolisdID: string, taskID: string) => void
-    changeFilter: (todolisdID: string, filter: FilterValuesType) => void
-    addTask: (todolisdID: string, title: string) => void
-    changeTaskStatus: (todolisdID: string, taskId: string, status: TaskStatuses) => void
-    removeTodolist: (todolisdID: string) => void
-    changeTodolistTitle: (todolisdID: string, newTitle: string) => void
-    changeTaskTitle: (todolisdID: string, taskID: string, newTitle: string) => void
-}
+import {RequestStatusType} from "../../../redux/app-reducer";
 
 const TodoList = React.memo((props: TodoListPropsType) => {
-
+    console.log("todolist")
     const dispatch: AppDispatchType = useDispatch()
 
     const removeTodolist = useCallback(() => {
@@ -80,12 +67,14 @@ const TodoList = React.memo((props: TodoListPropsType) => {
                 justifyContent: "space-between",
                 color: "#3A354D"
             }}>
-                <EditableSpan title={props.title} callback={changeTodolistTitle}/>
-                <IconButton aria-label="delete" style={{color: "#3A354D"}} onClick={removeTodolist}>
+                <EditableSpan title={props.title} callback={changeTodolistTitle}
+                              disabled={props.entityStatus === "loading"}/>
+                <IconButton color={"inherit"} aria-label="delete" onClick={removeTodolist}
+                            disabled={props.entityStatus === "loading"}>
                     <Delete/>
                 </IconButton>
             </h3>
-            <FullInput callback={addTask}/>
+            <FullInput callback={addTask} disabled={props.entityStatus}/>
             {taskForRender.length
                 ? taskForRender.map((task) => <Task
                         key={task.id}
@@ -106,10 +95,25 @@ const TodoList = React.memo((props: TodoListPropsType) => {
                         color="secondary"
                         onClick={() => onClickChangeFilter("completed")}>Completed</Button>
             </div>
-
         </div>
-
     );
 })
 
 export default TodoList;
+
+// =============================Types=============================
+
+export type TodoListPropsType = {
+    todolisdID: string
+    title: string
+    tasks: Array<TaskDomainType>
+    filter: FilterValuesType
+    entityStatus: RequestStatusType
+    removeTask: (todolisdID: string, taskID: string) => void
+    changeFilter: (todolisdID: string, filter: FilterValuesType) => void
+    addTask: (todolisdID: string, title: string) => void
+    changeTaskStatus: (todolisdID: string, taskId: string, status: TaskStatuses) => void
+    removeTodolist: (todolisdID: string) => void
+    changeTodolistTitle: (todolisdID: string, newTitle: string) => void
+    changeTaskTitle: (todolisdID: string, taskID: string, newTitle: string) => void
+}

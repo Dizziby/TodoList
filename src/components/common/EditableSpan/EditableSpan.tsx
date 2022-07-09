@@ -4,6 +4,7 @@ import {Input} from "@mui/material";
 type EditableSpanPropsType = {
     title: string
     callback: (title: string) => void
+    disabled?: boolean
 }
 
 export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo((props) => {
@@ -15,16 +16,26 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo((props) 
         setNewTitle(e.currentTarget.value)
     }
 
-    const onDoubleClickHandler = () => {
+    const onBlurHandler = () => {
         setEdit(!edit)
         props.callback(newTitle)
     }
 
+    const onDoubleClickHandler = () => {
+        if (!props.disabled) {
+            setEdit(true)
+        }
+    }
+
+
     return (
-            edit
-            ? <Input style={{fontWeight:"500", color: "#3A354D", maxWidth: "150px"}} value={newTitle} onChange={onChangeHandler} autoFocus onBlur={onDoubleClickHandler}/>
-                // <input value={newTitle} onChange={onChangeHandler} autoFocus onBlur={onDoubleClickHandler}/>
-            : <span style={{fontWeight:"500", color: "#3A354D", padding: "10px 0"}} onDoubleClick={() => setEdit(true)}>{props.title}</span>
+        edit
+            ?
+            <Input style={{fontWeight: "500", color: "#3A354D", maxWidth: "150px"}} value={newTitle}
+                   autoFocus onChange={onChangeHandler}
+                   onBlur={onBlurHandler}/>
+            : <span style={{fontWeight: "500", color: "#3A354D", padding: "10px 0"}}
+                    onDoubleClick={onDoubleClickHandler}>{props.title}</span>
 
     )
 })
