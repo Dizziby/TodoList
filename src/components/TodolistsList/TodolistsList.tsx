@@ -1,16 +1,15 @@
 import React, {useCallback, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatchType, RootState, useAppSelector} from "../../redux/store";
+import {useDispatch} from "react-redux";
+import {AppDispatchType, useAppSelector} from "../../redux/store";
 import {
     addTodolistTC,
     changeTodolistFilterAC,
     changeTodolistTC,
     fetchTodolistsTC,
     FilterValuesType,
-    removeTodolistTC,
-    TodolistDomainType
+    removeTodolistTC
 } from "../../redux/reducers/todolists-reducer";
-import {addTasksTC, removeTaskTC, TasksType, updateTaskTC} from "../../redux/reducers/tasks-reducer";
+import {addTasksTC, removeTaskTC, updateTaskTC} from "../../redux/reducers/tasks-reducer";
 import {TaskStatuses} from "../../api/todolistAPI";
 import {Grid, Paper} from "@mui/material";
 import {FullInput} from "../common/FullInput/FullInput";
@@ -20,40 +19,31 @@ import {Navigate} from "react-router-dom";
 export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo}) => {
     const dispatch: AppDispatchType = useDispatch()
 
-    const todolists = useSelector<RootState, Array<TodolistDomainType>>(state => state.todolists)
-    const tasks = useSelector<RootState, TasksType>(state => state.tasks)
-
+    const todolists = useAppSelector(state => state.todolists)
+    const tasks = useAppSelector(state => state.tasks)
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-
 
     const removeTodolist = useCallback((todolisdID: string) => {
         dispatch(removeTodolistTC(todolisdID))
     }, [])
-
     const addTask = useCallback((todolisdID: string, title: string) => {
         dispatch(addTasksTC(todolisdID, title))
     }, [])
-
     const removeTask = useCallback((todolisdID: string, taskID: string) => {
         dispatch(removeTaskTC(todolisdID, taskID))
     }, [])
-
     const changeTaskStatus = useCallback((todolisdID: string, taskID: string, status: TaskStatuses) => {
         dispatch(updateTaskTC(taskID, todolisdID, {status}))
     }, [])
-
     const changeFilter = useCallback((todolisdID: string, filter: FilterValuesType) => {
         dispatch(changeTodolistFilterAC(todolisdID, filter))
     }, [])
-
     const addTodolist = useCallback((newTitle: string) => {
         dispatch(addTodolistTC(newTitle))
     }, [])
-
     const changeTodolistTitle = useCallback((todolisdID: string, newTitle: string) => {
         dispatch(changeTodolistTC(todolisdID, newTitle))
     }, [])
-
     const changeTaskTitle = useCallback((todolisdID: string, taskID: string, newTitle: string) => {
         dispatch(updateTaskTC(taskID, todolisdID, {title: newTitle}))
     }, [])

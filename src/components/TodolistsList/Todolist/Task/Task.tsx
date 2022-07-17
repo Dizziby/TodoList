@@ -10,7 +10,6 @@ export const Task: React.FC<TaskPropsType> = React.memo((props) => {
     const changeTaskStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         props.changeTaskStatus(props.task.id, e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New)
     }, [props.changeTaskStatus, props.task.id])
-
     const changeTaskTitle = useCallback((newTitle: string) => {
         props.changeTaskTitle(props.task.id, newTitle)
     }, [props.changeTaskTitle, props.task.id])

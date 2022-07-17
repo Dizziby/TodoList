@@ -13,27 +13,21 @@ const TodoList = React.memo(({demo, ...props}: TodoListPropsType) => {
     const removeTodolist = useCallback(() => {
         props.removeTodolist(props.todolisdID)
     }, [props.removeTodolist, props.todolisdID])
-
     const changeTodolistTitle = useCallback((newTitle: string) => {
         props.changeTodolistTitle(props.todolisdID, newTitle)
     }, [props.changeTodolistTitle, props.todolisdID])
-
     const addTask = useCallback((title: string) => {
         props.addTask(props.todolisdID, title)
     }, [props.addTask, props.todolisdID])
-
     const changeTaskTitle = useCallback((taskID: string, newTitle: string) => {
         props.changeTaskTitle(props.todolisdID, taskID, newTitle)
     }, [props.changeTaskTitle, props.todolisdID])
-
     const onClickChangeFilter = useCallback((filter: FilterValuesType) => {
         props.changeFilter(props.todolisdID, filter)
     }, [props.changeFilter, props.todolisdID])
-
     const removeTask = useCallback((taskID: string) => {
         props.removeTask(props.todolisdID, taskID)
     }, [props.removeTask, props.todolisdID])
-
     const changeTaskStatus = useCallback((taskId: string, status: TaskStatuses) => {
         props.changeTaskStatus(props.todolisdID, taskId, status)
     }, [props.changeTaskStatus, props.todolisdID])
