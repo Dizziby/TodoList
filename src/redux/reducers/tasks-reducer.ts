@@ -1,9 +1,9 @@
-import {TaskType, todolistsAPI, TodolistType} from "../api/todolistAPI";
-import {setTodolistsAC} from "./todolists-reducer";
-import {AppDispatchType, AppThunkType, RootState} from "./store";
+import {TaskType, todolistsAPI, TodolistType} from "../../api/todolistAPI";
+import {clearTodolistData, setTodolistsAC} from "./todolists-reducer";
+import {AppDispatchType, AppThunkType, RootState} from "../store";
 import {RequestStatusType, setAppErrorAC, setAppStatusAC} from "./app-reducer";
 import {AxiosError} from "axios";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 const initialState: TasksType = {}
 
@@ -65,6 +65,8 @@ export const tasksReducer = (state: TasksType = initialState, action: TasksActio
                         entityStatus: action.payload.entityStatus
                     } : el)
             }
+        case "CLEAR-TODOLIST-DATA":
+            return {}
         default:
             return state
     }
@@ -240,6 +242,7 @@ export type TasksActionType =
     | ReturnType<typeof setTasksAC>
     | ReturnType<typeof changeTaskAC>
     | ReturnType<typeof changeTaskEntityStatusAC>
+    | ReturnType<typeof clearTodolistData>
 
 
 type UpdateDomainTaskModelType = {

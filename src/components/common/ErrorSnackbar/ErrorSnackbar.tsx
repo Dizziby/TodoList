@@ -3,7 +3,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, {AlertProps} from '@mui/material/Alert';
 import {AppDispatchType, useAppSelector} from "../../../redux/store";
 import {useDispatch} from "react-redux";
-import {setAppErrorAC} from "../../../redux/app-reducer";
+import {setAppErrorAC} from "../../../redux/reducers/app-reducer";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props, ref) {

@@ -1,8 +1,9 @@
-import {todolistsAPI, TodolistType} from "../api/todolistAPI";
-import {AppDispatchType, AppThunkType} from "./store";
+import {todolistsAPI, TodolistType} from "../../api/todolistAPI";
+import {AppDispatchType, AppThunkType} from "../store";
 import {RequestStatusType, setAppStatusAC} from "./app-reducer";
 import {AxiosError} from "axios";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {fetchTasksTC} from "./tasks-reducer";
 
 const initialState: Array<TodolistDomainType> = []
 
@@ -40,6 +41,8 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
                 ...el,
                 entityStatus: action.payload.entityStatus
             } : el)
+        case "CLEAR-TODOLIST-DATA":
+            return []
         default:
             return state
     }
@@ -91,6 +94,10 @@ export const changeTodolistEntityStatusAC = (id: string, entityStatus: RequestSt
     }
 }) as const
 
+export const clearTodolistData = () => ({
+    type: "CLEAR-TODOLIST-DATA"
+}) as const
+
 // =============================TC=============================
 
 export const fetchTodolistsTC = (): AppThunkType => (dispatch: AppDispatchType) => {
@@ -99,6 +106,12 @@ export const fetchTodolistsTC = (): AppThunkType => (dispatch: AppDispatchType) 
         .then((res) => {
             dispatch(setTodolistsAC(res.data))
             dispatch(setAppStatusAC("succeeded"))
+            return res.data
+        })
+        .then((todolists: TodolistType[]) => {
+            todolists.forEach((todolisd) => {
+                dispatch(fetchTasksTC(todolisd.id))
+            })
         })
         .catch((error: AxiosError) => {
             handleServerNetworkError(error, dispatch)
@@ -177,3 +190,4 @@ export type TodolistsActionType =
     | ReturnType<typeof changeTodolistFilterAC>
     | ReturnType<typeof setTodolistsAC>
     | ReturnType<typeof changeTodolistEntityStatusAC>
+    | ReturnType<typeof clearTodolistData>

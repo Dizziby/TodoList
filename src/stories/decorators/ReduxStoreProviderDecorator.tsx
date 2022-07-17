@@ -2,12 +2,13 @@ import {Provider} from "react-redux";
 import React from "react";
 import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux'
 import {v1} from "uuid";
-import {tasksReducer} from "../../redux/tasks-reducer";
-import {todolistsReducer} from "../../redux/todolists-reducer";
+import {tasksReducer} from "../../redux/reducers/tasks-reducer";
+import {todolistsReducer} from "../../redux/reducers/todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "../../api/todolistAPI";
 import {RootState} from "../../redux/store";
 import thunk from "redux-thunk";
-import {appReducer} from "../../redux/app-reducer";
+import {appReducer} from "../../redux/reducers/app-reducer";
+import {BrowserRouter} from "react-router-dom";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
@@ -17,8 +18,22 @@ const rootReducer = combineReducers({
 
 const initialGlobalState = {
     todolists: [
-        {id: "todolistId1", title: 'What to learn', filter: 'all', addedDate: "", order: 0, entityStatus: "idle"},
-        {id: "todolistId2", title: 'What to buy', filter: 'all', addedDate: "", order: 0, entityStatus: "idle"},
+        {
+            id: "todolistId1",
+            title: 'What to learn',
+            filter: 'all',
+            addedDate: "",
+            order: 0,
+            entityStatus: "idle"
+        },
+        {
+            id: "todolistId2",
+            title: 'What to buy',
+            filter: 'all',
+            addedDate: "",
+            order: 0,
+            entityStatus: "idle"
+        },
     ],
     tasks: {
         ['todolistId1']: [
@@ -78,11 +93,19 @@ const initialGlobalState = {
     },
     app: {
         status: 'loading',
-        error: null
+        error: null,
+        isInitialized: true
+    },
+    auth: {
+        isLoggedIn: true
     }
 }
 
 export const storyBookStore = createStore(rootReducer, initialGlobalState as RootState, applyMiddleware(thunk))
 
 export const ReduxStoreProviderDecorator = (storyFn: () => React.ReactNode) => <Provider
-    store={storyBookStore}>{storyFn()}</Provider>
+    store={storyBookStore}>
+    <BrowserRouter>
+        {storyFn()}
+    </BrowserRouter>
+</Provider>

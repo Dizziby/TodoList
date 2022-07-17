@@ -1,19 +1,19 @@
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, FilterValuesType,
-    removeTodolistAC, TodolistDomainType,
+    changeTodolistTitleAC,
+    FilterValuesType,
+    removeTodolistAC,
+    TodolistDomainType,
     todolistsReducer
-} from '../todolists-reducer';
+} from '../reducers/todolists-reducer';
 import {v1} from 'uuid';
-import {TaskPriorities, TaskStatuses} from "../../api/todolistAPI";
 
 
 let todolistId1: string
 let todolistId2: string
 
 let startState: Array<TodolistDomainType>
-
 
 beforeEach(() => {
     todolistId1 = v1();
@@ -51,22 +51,15 @@ test('correct todolist should be added', () => {
 
     let newTodolistTitle = {
         id: v1(),
-        title: 'New task',
-        status: TaskStatuses.Completed,
-        description: "",
-        todoListId: 'todolistId1',
-        startDate: "",
-        deadline: "",
+        title: 'New todolist',
         addedDate: "",
-        order: 0,
-        priority: TaskPriorities.Low,
-        entityStatus: "idle"
+        order: 0
     }
 
     const endState = todolistsReducer(startState, addTodolistAC(newTodolistTitle))
 
     expect(endState.length).toBe(3);
-    expect(endState[0].title).toBe(newTodolistTitle);
+    expect(endState[0].title).toBe('New todolist');
 });
 
 test('correct todolist should change its name', () => {

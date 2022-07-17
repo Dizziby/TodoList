@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {AppDispatchType, RootState} from "../../redux/store";
+import {AppDispatchType, RootState, useAppSelector} from "../../redux/store";
 import {
     addTodolistTC,
     changeTodolistFilterAC,
@@ -9,20 +9,22 @@ import {
     FilterValuesType,
     removeTodolistTC,
     TodolistDomainType
-} from "../../redux/todolists-reducer";
-import {addTasksTC, removeTaskTC, TasksType, updateTaskTC} from "../../redux/tasks-reducer";
+} from "../../redux/reducers/todolists-reducer";
+import {addTasksTC, removeTaskTC, TasksType, updateTaskTC} from "../../redux/reducers/tasks-reducer";
 import {TaskStatuses} from "../../api/todolistAPI";
 import {Grid, Paper} from "@mui/material";
 import {FullInput} from "../common/FullInput/FullInput";
 import TodoList from "./Todolist/Todolist";
+import {Navigate} from "react-router-dom";
 
-export const TodolistsList: React.FC = () => {
+export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo}) => {
+    const dispatch: AppDispatchType = useDispatch()
 
     const todolists = useSelector<RootState, Array<TodolistDomainType>>(state => state.todolists)
-
     const tasks = useSelector<RootState, TasksType>(state => state.tasks)
 
-    const dispatch: AppDispatchType = useDispatch()
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+
 
     const removeTodolist = useCallback((todolisdID: string) => {
         dispatch(removeTodolistTC(todolisdID))
@@ -57,8 +59,17 @@ export const TodolistsList: React.FC = () => {
     }, [])
 
     useEffect(() => {
-        dispatch(fetchTodolistsTC())
+        if (demo) {
+            return
+        }
+        if(isLoggedIn) {
+            dispatch(fetchTodolistsTC())
+        }
     }, [])
+
+    if(!isLoggedIn) {
+        return <Navigate to="/login" />
+    }
 
     return (
         <>
@@ -84,6 +95,7 @@ export const TodolistsList: React.FC = () => {
                                     removeTodolist={removeTodolist}
                                     changeTodolistTitle={changeTodolistTitle}
                                     changeTaskTitle={changeTaskTitle}
+                                    demo={demo}
                                 />
                             </Paper>
                         </Grid>
@@ -92,4 +104,10 @@ export const TodolistsList: React.FC = () => {
             </Grid>
         </>
     )
+}
+
+// =============================Types=============================
+
+type TodolistsListPropsType = {
+    demo?: boolean
 }

@@ -17,7 +17,6 @@ export const todolistsAPI = {
     },
     deleteTodolist(todolistId: string) {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}`)
-
     },
     updateTodolist(todolistId: string, title: string) {
         return instance.put<ResponseType>(`todo-lists/${todolistId}`, {title})
@@ -34,6 +33,18 @@ export const todolistsAPI = {
     },
     updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
         return instance.put<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
+    },
+}
+
+export const authAPI = {
+    me() {
+        return instance.get<ResponseType<{ id: number, email: string, login: string }>>('auth/me')
+    },
+    login(params: LoginParamsType) {
+        return instance.post<ResponseType<{ userId: number }>>('auth/login', params)
+    },
+    logout() {
+        return instance.delete<ResponseType>('auth/login')
     },
 }
 
@@ -96,4 +107,9 @@ type UpdateTaskModelType = {
     deadline: string
 }
 
-
+export type LoginParamsType = {
+    email: string,
+    password: string
+    rememberMe?: boolean
+    captcha?: string
+}

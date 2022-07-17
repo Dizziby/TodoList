@@ -3,7 +3,7 @@ import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "../../../common/EditableSpan/EditableSpan";
 import {Delete} from "@mui/icons-material";
 import {TaskStatuses} from "../../../../api/todolistAPI";
-import {TaskDomainType} from "../../../../redux/tasks-reducer";
+import {TaskDomainType} from "../../../../redux/reducers/tasks-reducer";
 
 export const Task: React.FC<TaskPropsType> = React.memo((props) => {
 

@@ -1,4 +1,4 @@
-import {setAppErrorAC, setAppStatusAC} from "../redux/app-reducer";
+import {setAppErrorAC, setAppStatusAC} from "../redux/reducers/app-reducer";
 import {AppDispatchType} from "../redux/store";
 import {ResponseType} from "../api/todolistAPI";
 

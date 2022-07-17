@@ -40,7 +40,8 @@ export const TaskIsNotDoneStories = Template.bind({})
 
 TaskIsNotDoneStories.args = {
     task: {
-        id: v1(), title: "HTML&CSS",
+        id: v1(),
+        title: "HTML&CSS",
         status: TaskStatuses.New,
         description: "",
         todoListId: "task",

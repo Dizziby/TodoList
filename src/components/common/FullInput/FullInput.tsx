@@ -1,6 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {Button, TextField} from "@mui/material";
-import {RequestStatusType} from "../../../redux/app-reducer";
+import {RequestStatusType} from "../../../redux/reducers/app-reducer";
 
 type FullInputPropsType = {
     callback: (title: string) => void

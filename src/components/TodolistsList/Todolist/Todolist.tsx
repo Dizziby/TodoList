@@ -1,20 +1,15 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {FullInput} from "../../common/FullInput/FullInput";
 import {EditableSpan} from "../../common/EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "./Task/Task";
 import {TaskStatuses} from "../../../api/todolistAPI";
-import {FilterValuesType} from "../../../redux/todolists-reducer";
-import {useDispatch} from "react-redux";
-import {fetchTasksTC, TaskDomainType} from "../../../redux/tasks-reducer";
-import {AppDispatchType} from "../../../redux/store";
-import {RequestStatusType} from "../../../redux/app-reducer";
+import {FilterValuesType} from "../../../redux/reducers/todolists-reducer";
+import {TaskDomainType} from "../../../redux/reducers/tasks-reducer";
+import {RequestStatusType} from "../../../redux/reducers/app-reducer";
 
-const TodoList = React.memo((props: TodoListPropsType) => {
-    console.log("todolist")
-    const dispatch: AppDispatchType = useDispatch()
-
+const TodoList = React.memo(({demo, ...props}: TodoListPropsType) => {
     const removeTodolist = useCallback(() => {
         props.removeTodolist(props.todolisdID)
     }, [props.removeTodolist, props.todolisdID])
@@ -54,10 +49,6 @@ const TodoList = React.memo((props: TodoListPropsType) => {
         default:
             taskForRender = props.tasks
     }
-
-    useEffect(() => {
-        dispatch(fetchTasksTC(props.todolisdID))
-    }, [])
 
     return (
         <div>
@@ -116,4 +107,5 @@ export type TodoListPropsType = {
     removeTodolist: (todolisdID: string) => void
     changeTodolistTitle: (todolisdID: string, newTitle: string) => void
     changeTaskTitle: (todolisdID: string, taskID: string, newTitle: string) => void
+    demo?: boolean
 }
