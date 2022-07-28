@@ -10,8 +10,9 @@ import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
 import {loginTC} from "../../redux/reducers/auth-reducer";
-import {AppDispatchType, useAppSelector} from "../../redux/store";
+import {AppDispatchType} from "../../redux/store";
 import {Navigate} from "react-router-dom";
+import {useAppSelector} from "../common/hooks/useAppSelector";
 
 export const Login = () => {
     const dispatch: AppDispatchType = useDispatch()

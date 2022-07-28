@@ -7,9 +7,10 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import {LinearProgress} from "@mui/material";
-import {AppDispatchType, useAppSelector} from "../../redux/store";
+import {AppDispatchType} from "../../redux/store";
 import {logoutTC} from "../../redux/reducers/auth-reducer";
 import {useDispatch} from "react-redux";
+import {useAppSelector} from "../common/hooks/useAppSelector";
 
 export default function ButtonAppBar() {
     const status = useAppSelector(state => state.app.status)

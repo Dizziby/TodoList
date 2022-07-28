@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from "react";
 import {useDispatch} from "react-redux";
-import {AppDispatchType, useAppSelector} from "../../redux/store";
+import {AppDispatchType} from "../../redux/store";
 import {
     addTodolistTC,
     changeTodolistFilterAC,
@@ -15,6 +15,7 @@ import {Grid, Paper} from "@mui/material";
 import {FullInput} from "../common/FullInput/FullInput";
 import TodoList from "./Todolist/Todolist";
 import {Navigate} from "react-router-dom";
+import {useAppSelector} from "../common/hooks/useAppSelector";
 
 export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo}) => {
     const dispatch: AppDispatchType = useDispatch()
@@ -36,7 +37,7 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo}) => {
         dispatch(updateTaskTC(taskID, todolisdID, {status}))
     }, [])
     const changeFilter = useCallback((todolisdID: string, filter: FilterValuesType) => {
-        dispatch(changeTodolistFilterAC(todolisdID, filter))
+        dispatch(changeTodolistFilterAC({id: todolisdID, filter}))
     }, [])
     const addTodolist = useCallback((newTitle: string) => {
         dispatch(addTodolistTC(newTitle))

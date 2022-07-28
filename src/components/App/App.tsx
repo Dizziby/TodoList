@@ -7,8 +7,9 @@ import {ErrorSnackbar} from "../common/ErrorSnackbar/ErrorSnackbar";
 import {Login} from "../Login/Login";
 import {Routes, Route, Navigate} from "react-router-dom";
 import {initializeAppTC} from "../../redux/reducers/app-reducer";
-import {AppDispatchType, useAppSelector} from "../../redux/store";
+import {AppDispatchType} from "../../redux/store";
 import {useDispatch} from "react-redux";
+import {useAppSelector} from "../common/hooks/useAppSelector";
 
 function App({demo = false}: AppPropsType) {
 
