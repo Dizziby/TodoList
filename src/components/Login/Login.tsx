@@ -15,6 +15,7 @@ import {Navigate} from "react-router-dom";
 import {useAppSelector} from "../common/hooks/useAppSelector";
 
 export const Login = () => {
+    debugger
     const dispatch: AppDispatchType = useDispatch()
 
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)

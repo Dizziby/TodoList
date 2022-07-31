@@ -15,8 +15,6 @@ const rootReducer = combineReducers(
     }
 )
 
-//export const store = createStore(rootReducer, applyMiddleware(thunk))
-
 export const store = configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk)
@@ -26,6 +24,7 @@ export const store = configureStore({
 
 // =============================Types=============================
 
+export type RootReducerType = typeof rootReducer
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 

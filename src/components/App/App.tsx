@@ -12,16 +12,15 @@ import {useDispatch} from "react-redux";
 import {useAppSelector} from "../common/hooks/useAppSelector";
 
 function App({demo = false}: AppPropsType) {
-
+    debugger
     const dispatch: AppDispatchType = useDispatch()
 
     const isInitialized = useAppSelector(state => state.app.isInitialized)
 
     useEffect(() => {
-        if (demo) {
-            return
+        if (!demo) {
+            dispatch(initializeAppTC())
         }
-        dispatch(initializeAppTC())
     }, [])
 
     if (!isInitialized) {
@@ -39,7 +38,7 @@ function App({demo = false}: AppPropsType) {
                 <Routes>
                     <Route path="/" element={<TodolistsList demo={demo}/>}/>
                     <Route path="/todolist" element={<Navigate to={"/"}/>}/>
-                    <Route path="login" element={<Login/>}/>
+                    <Route path="/login" element={<Login/>}/>
                     <Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>}/>
                     <Route path="*" element={<Navigate to={"404"}/>}/>
                 </Routes>
