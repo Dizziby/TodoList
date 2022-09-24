@@ -1,76 +1,57 @@
-import {AppDispatchType, AppThunkType} from "../store";
 import {authAPI, LoginParamsType} from "../../api/todolistAPI";
-import {AxiosError} from "axios";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {setAppStatusAC} from "./app-reducer";
-import {clearTodolistData} from "./todolists-reducer";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {clearTodoListData} from "./todo-lists-reducer";
 
-const initialState = {
-    isLoggedIn: false
-}
+export const loginTC = createAsyncThunk("auth/login", async (data: LoginParamsType, {dispatch}) => {
+    dispatch(setAppStatusAC({status: "loading"}))
+    try {
+        const res = await authAPI.login(data)
+        if (res.data.resultCode === 0) {
+            dispatch(setAppStatusAC({status: "succeeded"}))
+        } else {
+            handleServerAppError(res.data, dispatch)
+        }
+    } catch (error: any) {
+        handleServerNetworkError(error, dispatch)
+    }
+})
+export const logoutTC = createAsyncThunk("auth/logout", async (param, {dispatch}) => {
+    dispatch(setAppStatusAC({status: "loading"}))
+    try {
+        const res = await authAPI.logout()
+        if (res.data.resultCode === 0) {
+            dispatch(setAppStatusAC({status: "succeeded"}))
+            dispatch(clearTodoListData())
+        } else {
+            handleServerAppError(res.data, dispatch)
+        }
+    } catch (error: any) {
+        handleServerNetworkError(error, dispatch)
+    }
+})
 
 const slice = createSlice({
     name: "auth",
-    initialState: initialState,
+    initialState: {isLoggedIn: false},
     reducers: {
-        setIsLoggedInAC(state, action: PayloadAction<{value: boolean}>) {
+        setIsLoggedInAC(state, action: PayloadAction<{ value: boolean }>) {
             state.isLoggedIn = action.payload.value
         }
+    },
+    extraReducers: builder => {
+        builder.addCase(loginTC.fulfilled, (state) => {
+            state.isLoggedIn = true
+        })
+            .addCase(logoutTC.fulfilled, (state) => {
+                state.isLoggedIn = false
+            })
     }
 })
 
 export const authReducer = slice.reducer
 export const {setIsLoggedInAC} = slice.actions
-
-// export const authReducer = (state: InitialStateType = initialState, action: AuthActionType): InitialStateType => {
-//     switch (action.type) {
-//         case 'login/SET-IS-LOGGED-IN':
-//             return {...state, isLoggedIn: action.value}
-//         default:
-//             return state
-//     }
-// }
-
-// =============================AC=============================
-
-// export const setIsLoggedInAC = (value: boolean) =>
-//     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
-
-// =============================TC=============================
-
-export const loginTC = (data: LoginParamsType): AppThunkType => (dispatch: AppDispatchType) => {
-    dispatch(setAppStatusAC({status: 'loading'}))
-    authAPI.login(data)
-        .then((res) => {
-            if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC({value: true}))
-                dispatch(setAppStatusAC({status: "succeeded"}))
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-        })
-        .catch((error: AxiosError) => {
-            handleServerNetworkError(error, dispatch)
-        })
-}
-
-export const logoutTC = () => (dispatch: AppDispatchType) => {
-    dispatch(setAppStatusAC({status: 'loading'}))
-    authAPI.logout()
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC({value: false}))
-                dispatch(setAppStatusAC({status: "succeeded"}))
-                dispatch(clearTodolistData())
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-        })
-        .catch((error) => {
-            handleServerNetworkError(error, dispatch)
-        })
-}
 
 // =============================Types=============================
 

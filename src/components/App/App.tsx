@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {ReactElement, useEffect} from "react";
 import './App.css';
 import ButtonAppBar from "../ButtonAppBar/ButtonAppBar";
 import {CircularProgress, Container} from "@mui/material";
@@ -11,8 +11,8 @@ import {AppDispatchType} from "../../redux/store";
 import {useDispatch} from "react-redux";
 import {useAppSelector} from "../common/hooks/useAppSelector";
 
-function App({demo = false}: AppPropsType) {
-    debugger
+function App({demo = false}: AppPropsType): ReactElement {
+
     const dispatch: AppDispatchType = useDispatch()
 
     const isInitialized = useAppSelector(state => state.app.isInitialized)
@@ -21,7 +21,7 @@ function App({demo = false}: AppPropsType) {
         if (!demo) {
             dispatch(initializeAppTC())
         }
-    }, [])
+    }, [dispatch, demo])
 
     if (!isInitialized) {
         return <div
@@ -37,7 +37,7 @@ function App({demo = false}: AppPropsType) {
             <Container fixed>
                 <Routes>
                     <Route path="/" element={<TodolistsList demo={demo}/>}/>
-                    <Route path="/todolist" element={<Navigate to={"/"}/>}/>
+                    <Route path="/to-do-list" element={<Navigate to={"/"}/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>}/>
                     <Route path="*" element={<Navigate to={"404"}/>}/>

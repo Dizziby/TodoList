@@ -5,7 +5,7 @@ import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "./Task/Task";
 import {TaskStatuses} from "../../../api/todolistAPI";
-import {FilterValuesType} from "../../../redux/reducers/todolists-reducer";
+import {FilterValuesType} from "../../../redux/reducers/todo-lists-reducer";
 import {TaskDomainType} from "../../../redux/reducers/tasks-reducer";
 import {RequestStatusType} from "../../../redux/reducers/app-reducer";
 

@@ -1,6 +1,6 @@
 {
-  "name": "todolist",
-  "homepage": "https://Dizziby.github.io/todoList",
+  "name": "to-do-list",
+  "homepage": "https://Dizziby.github.io/to-do-list",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

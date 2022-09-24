@@ -2,14 +2,14 @@ import React, {useCallback, useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {AppDispatchType} from "../../redux/store";
 import {
-    addTodolistTC,
-    changeTodolistFilterAC,
-    changeTodolistTC,
-    fetchTodolistsTC,
+    addTodoListTC,
+    changeTodoListFilterAC,
+    changeTodoListTC,
+    fetchTodoListsTC,
     FilterValuesType,
-    removeTodolistTC
-} from "../../redux/reducers/todolists-reducer";
-import {addTasksTC, removeTaskTC, updateTaskTC} from "../../redux/reducers/tasks-reducer";
+    removeTodoListTC
+} from "../../redux/reducers/todo-lists-reducer";
+import {addTaskTC, removeTaskTC, updateTaskTC} from "../../redux/reducers/tasks-reducer";
 import {TaskStatuses} from "../../api/todolistAPI";
 import {Grid, Paper} from "@mui/material";
 import {FullInput} from "../common/FullInput/FullInput";
@@ -17,49 +17,49 @@ import TodoList from "./Todolist/Todolist";
 import {Navigate} from "react-router-dom";
 import {useAppSelector} from "../common/hooks/useAppSelector";
 
-export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo}) => {
+export const TodolistsList: React.FC<TodoListsListPropsType> = ({demo}) => {
     const dispatch: AppDispatchType = useDispatch()
 
     const todolists = useAppSelector(state => state.todolists)
     const tasks = useAppSelector(state => state.tasks)
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
-    const removeTodolist = useCallback((todolisdID: string) => {
-        dispatch(removeTodolistTC(todolisdID))
-    }, [])
-    const addTask = useCallback((todolisdID: string, title: string) => {
-        dispatch(addTasksTC(todolisdID, title))
-    }, [])
-    const removeTask = useCallback((todolisdID: string, taskID: string) => {
-        dispatch(removeTaskTC(todolisdID, taskID))
-    }, [])
-    const changeTaskStatus = useCallback((todolisdID: string, taskID: string, status: TaskStatuses) => {
-        dispatch(updateTaskTC(taskID, todolisdID, {status}))
-    }, [])
-    const changeFilter = useCallback((todolisdID: string, filter: FilterValuesType) => {
-        dispatch(changeTodolistFilterAC({id: todolisdID, filter}))
-    }, [])
+    const removeTodolist = useCallback((todoListId: string) => {
+        dispatch(removeTodoListTC(todoListId))
+    }, [dispatch])
+    const addTask = useCallback((todolistId: string, title: string) => {
+        dispatch(addTaskTC({todolistId, title}))
+    }, [dispatch])
+    const removeTask = useCallback((todolistId: string, taskId: string) => {
+        dispatch(removeTaskTC({todolistId, taskId}))
+    }, [dispatch])
+    const changeTaskStatus = useCallback((todoListId: string, taskId: string, status: TaskStatuses) => {
+        dispatch(updateTaskTC({taskId, todoListId, domainModel: {status}}))
+    }, [dispatch])
+    const changeFilter = useCallback((todoListId: string, filter: FilterValuesType) => {
+        dispatch(changeTodoListFilterAC({id: todoListId, filter}))
+    }, [dispatch])
     const addTodolist = useCallback((newTitle: string) => {
-        dispatch(addTodolistTC(newTitle))
-    }, [])
-    const changeTodolistTitle = useCallback((todolisdID: string, newTitle: string) => {
-        dispatch(changeTodolistTC(todolisdID, newTitle))
-    }, [])
-    const changeTaskTitle = useCallback((todolisdID: string, taskID: string, newTitle: string) => {
-        dispatch(updateTaskTC(taskID, todolisdID, {title: newTitle}))
-    }, [])
+        dispatch(addTodoListTC(newTitle))
+    }, [dispatch])
+    const changeTodolistTitle = useCallback((todoListId: string, newTitle: string) => {
+        dispatch(changeTodoListTC({todoListId, newTitle}))
+    }, [dispatch])
+    const changeTaskTitle = useCallback((todoListId: string, taskId: string, newTitle: string) => {
+        dispatch(updateTaskTC({taskId, todoListId, domainModel: {title: newTitle}}))
+    }, [dispatch])
 
     useEffect(() => {
         if (demo) {
             return
         }
-        if(isLoggedIn) {
-            dispatch(fetchTodolistsTC())
+        if (isLoggedIn) {
+            dispatch(fetchTodoListsTC())
         }
-    }, [])
+    }, [dispatch, demo, isLoggedIn])
 
-    if(!isLoggedIn) {
-        return <Navigate to="/login" />
+    if (!isLoggedIn) {
+        return <Navigate to="/login"/>
     }
 
     return (
@@ -99,6 +99,6 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo}) => {
 
 // =============================Types=============================
 
-type TodolistsListPropsType = {
+type TodoListsListPropsType = {
     demo?: boolean
 }
